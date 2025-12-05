@@ -6,10 +6,8 @@ peft>=0.4.0
 # BERT相关
 sentence-transformers>=2.2.0
 
-# 向量检索
-faiss-cpu>=1.7.4
-
 # 科学计算
+
 numpy>=1.24.0
 scipy>=1.10.0
 

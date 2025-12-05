@@ -5,13 +5,14 @@ BERT-CLAM模型
 
 import torch
 import torch.nn as nn
-from typing import Dict, Optional, Tuple, Any
+from typing import Dict, Optional, Tuple, Any, List
 from bert_clam.models.bert_backbone import EnhancedBERTBackbone
 from bert_clam.models.lora_adapter import BERTLoRAModifier
-from bert_clam.core.amr import EnhancedAdaptiveMemoryRetrieval
+from bert_clam.core.memory_replay_bank import EnhancedAdaptiveMemoryRetrieval
 from bert_clam.core.ewc import EnhancedElasticWeightConsolidation
 from bert_clam.core.alp import EnhancedAdaptiveLoRAPooling
 from bert_clam.core.grammar_aware import EnhancedGrammarAwareModule
+from bert_clam.core.strategy import ContinualLearningStrategy
 
 
 class BERTCLAMModel(nn.Module):
@@ -27,13 +28,25 @@ class BERTCLAMModel(nn.Module):
                  alp_top_k: int = 3,
                  grammar_features_dim: int = 64,
                  device: str = None,
-                 lora_enabled: bool = True):
+                 lora_enabled: bool = True,
+                 enable_ewc: bool = False,
+                 enable_amr: bool = False,
+                 enable_alp: bool = False,
+                 enable_grammar: bool = False,
+                 strategies: Optional[List[ContinualLearningStrategy]] = None):
         super().__init__()
         
         self.model_name = model_name
         self.num_labels = num_labels
         self.device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.lora_enabled = lora_enabled
+        self.enable_ewc = enable_ewc
+        self.enable_amr = enable_amr
+        self.enable_alp = enable_alp
+        self.enable_grammar = enable_grammar
+        
+        # 策略列表（新架构）
+        self.strategies = strategies if strategies is not None else []
         
         # BERT骨干网络
         self.backbone = EnhancedBERTBackbone(
@@ -64,40 +77,53 @@ class BERTCLAMModel(nn.Module):
             # 如果不使用LoRA，确保所有参数都是可训练的
             for param in self.backbone.parameters():
                 param.requires_grad = True
+            print(f"[OK] 基线模式：所有 {sum(p.numel() for p in self.backbone.parameters() if p.requires_grad)} 个参数已设置为可训练")
         
         # 核心组件
-        # 1. 自适应记忆检索 (AMR)
-        self.amr = EnhancedAdaptiveMemoryRetrieval(
-            hidden_size=self.hidden_size,
-            k=amr_k,
-            memory_dim=self.hidden_size
-        )
-        
+        # 1. 记忆重放库 (Memory Replay Bank)
+        if self.enable_amr:
+            self.mrb = EnhancedAdaptiveMemoryRetrieval(
+                hidden_size=self.hidden_size,
+                k=amr_k,
+                memory_dim=self.hidden_size
+            )
+        else:
+            self.mrb = None
+
         # 2. 弹性权重巩固 (EWC)
-        self.ewc = EnhancedElasticWeightConsolidation(
-            lambda_ewc=ewc_lambda,
-            fisher_samples=100,
-            update_strategy="cumulative"
-        )
-        
+        if self.enable_ewc:
+            self.ewc = EnhancedElasticWeightConsolidation(
+                lambda_ewc=ewc_lambda,
+                fisher_samples=100,
+                update_strategy="cumulative"
+            )
+        else:
+            self.ewc = None
+
         # 3. 自适应LoRA池化 (ALP)
-        self.alp = EnhancedAdaptiveLoRAPooling(
-            hidden_size=self.hidden_size,
-            r=lora_r,
-            alpha=lora_alpha,
-            top_k=alp_top_k,
-            similarity_threshold=0.7,
-            adaptive_scaling=True,
-            task_similarity_aware=True,
-            device=self.device
-        )
-        
+        if self.enable_alp:
+            self.alp = EnhancedAdaptiveLoRAPooling(
+                hidden_size=self.hidden_size,
+                r=lora_r,
+                alpha=lora_alpha,
+                top_k=alp_top_k,
+                similarity_threshold=0.7,
+                adaptive_scaling=True,
+                task_similarity_aware=True,
+                device=self.device
+            )
+        else:
+            self.alp = None
+
         # 4. 语法感知模块
-        self.grammar_aware = EnhancedGrammarAwareModule(
-            hidden_size=self.hidden_size,
-            num_attention_heads=num_attention_heads,
-            grammar_features_dim=grammar_features_dim
-        )
+        if self.enable_grammar:
+            self.grammar_aware = EnhancedGrammarAwareModule(
+                hidden_size=self.hidden_size,
+                num_attention_heads=num_attention_heads,
+                grammar_features_dim=grammar_features_dim
+            )
+        else:
+            self.grammar_aware = None
         
         # 损失权重
         self.loss_weights = {
@@ -111,6 +137,27 @@ class BERTCLAMModel(nn.Module):
         self.current_task_id = 0
         self.task_embeddings = {}
         self.task_memory = {}
+        
+        # 如果没有提供策略但启用了模块，自动创建策略（向后兼容）
+        if not self.strategies:
+            self._create_default_strategies()
+    
+    def _create_default_strategies(self):
+        """根据enable_*标志创建默认策略（向后兼容）"""
+        from bert_clam.core.strategy import GrammarStrategy, ALPStrategy, MRBStrategy, EWCStrategy
+        
+        # 按照原始顺序：Grammar -> ALP -> MRB -> EWC
+        if self.enable_grammar and self.grammar_aware:
+            self.strategies.append(GrammarStrategy(self.grammar_aware))
+        
+        if self.enable_alp and self.alp:
+            self.strategies.append(ALPStrategy(self.alp))
+        
+        if self.enable_amr and self.mrb:
+            self.strategies.append(MRBStrategy(self.mrb))
+        
+        if self.enable_ewc and self.ewc:
+            self.strategies.append(EWCStrategy(self.ewc, self))
         
     def forward(self,
                 input_ids: torch.Tensor,
@@ -147,33 +194,26 @@ class BERTCLAMModel(nn.Module):
        # 获取序列输出和池化输出
        sequence_output = backbone_outputs['sequence_output']
        pooled_output = backbone_outputs['pooled_output']
-        
-       # 此处不再需要对中间logits进行维度修正，
-       # 因为最终的 final_logits 会确保正确的维度。
-        
-       # 语法感知增强
-       if 'attentions' in backbone_outputs and backbone_outputs['attentions']:
-           attention_weights = backbone_outputs['attentions'][-1]
-           enhanced_output = self.grammar_aware(sequence_output, attention_weights)
-       else:
-           enhanced_output = self.grammar_aware(sequence_output)
-        
-       # 应用自适应LoRA池化
-       task_embedding = self.get_task_embedding(input_ids, attention_mask)
-       if task_id in self.task_embeddings:
-           enhanced_output = self.alp(
-               enhanced_output,
-               self.task_embeddings[task_id],
-               'classifier',
-               task_id
+       
+       # 应用策略链（新架构）
+       current_output = sequence_output
+       total_strategy_loss = torch.tensor(0.0, device=self.device)
+       
+       for strategy in self.strategies:
+           current_output, strategy_loss = strategy.apply(
+               hidden_states=current_output,
+               model_output=backbone_outputs,
+               task_id=task_id,
+               task_memory=self.task_memory,
+               task_embeddings=self.task_embeddings,
+               get_task_embedding=self.get_task_embedding,
+               input_ids=input_ids,
+               attention_mask=attention_mask
            )
-        
-       # AMR知识检索和融合
-       if task_id in self.task_memory:
-           retrieved_knowledge = self.amr(enhanced_output, task_id)
-           fused_output = 0.8 * enhanced_output + 0.2 * retrieved_knowledge
-       else:
-           fused_output = enhanced_output
+           if strategy_loss is not None:
+               total_strategy_loss += strategy_loss
+       
+       fused_output = current_output
         
        # 最终分类 - 使用融合后的输出
        final_pooled = fused_output.mean(dim=1) if fused_output.dim() > 2 else fused_output
@@ -214,41 +254,19 @@ class BERTCLAMModel(nn.Module):
                print(f"labels values: min={labels.min()}, max={labels.max()}")
                raise
            total_loss = self.loss_weights['ce'] * ce_loss
-            
-           # AMR知识蒸馏损失 - KL散度
-           if task_id > 0 and len(self.task_memory) > 0:
-               retrieved_knowledge = self.amr(sequence_output, task_id)
+           
+           # 添加策略损失（新架构）
+           if total_strategy_loss.item() > 0:
+               # 根据损失类型应用权重
+               total_loss += total_strategy_loss
+           
+           # 记忆重放库知识蒸馏损失（向后兼容，仅在未使用策略时）
+           if not self.strategies and self.mrb and task_id > 0 and len(self.task_memory) > 0:
+               retrieved_knowledge = self.mrb(sequence_output, task_id)
                pooled_current = fused_output.mean(dim=1)
                pooled_retrieved = retrieved_knowledge.mean(dim=1)
-               distill_loss = self.amr.amr_core.compute_distillation_loss(pooled_current, pooled_retrieved.detach())
+               distill_loss = self.mrb.amr_core.compute_distillation_loss(pooled_current, pooled_retrieved.detach())
                total_loss += self.loss_weights['distill'] * distill_loss
-            
-           # EWC正则化损失
-           if hasattr(self.ewc, 'compute_multi_task_ewc_loss'):
-               ewc_loss = self.ewc.compute_multi_task_ewc_loss(
-                   self, list(self.task_memory.keys())
-               )
-               total_loss += self.loss_weights['ewc'] * ewc_loss
-            
-           # 语法感知损失
-           if hasattr(self.grammar_aware, 'compute_syntax_aware_loss'):
-               # Ensure fused_output is 3D for grammar_aware module
-               if fused_output.dim() > 3:
-                   fused_output_3d = fused_output.view(fused_output.size(0), fused_output.size(1), -1)
-               elif fused_output.dim() < 3:
-                    # Handle cases where the dimension is less than 3, maybe by unsqueezing
-                    while fused_output.dim() < 3:
-                        fused_output = fused_output.unsqueeze(0)
-                    fused_output_3d = fused_output
-               else:
-                   fused_output_3d = fused_output
-               
-               # Ensure the last dimension matches hidden_size
-               if fused_output_3d.size(2) != self.hidden_size:
-                    fused_output_3d = fused_output_3d[:, :, :self.hidden_size]
-
-               grammar_loss = self.grammar_aware.compute_syntax_aware_loss(fused_output_3d)
-               total_loss += self.loss_weights['grammar'] * grammar_loss
             
            outputs['loss'] = total_loss
            outputs['ce_loss'] = ce_loss
@@ -285,9 +303,9 @@ class BERTCLAMModel(nn.Module):
         with torch.no_grad():
             hidden_states = self.backbone.bert.get_hidden_states(input_ids, attention_mask)
             
-            # 添加到AMR记忆库
-            if self.amr is not None:
-                self.amr.add_to_memory(hidden_states, labels, task_id)
+            # 添加到记忆重放库
+            if self.mrb is not None:
+                self.mrb.add_to_memory(hidden_states, labels, task_id)
             
             # 更新任务嵌入
             task_embedding = self.get_task_embedding(input_ids, attention_mask)
@@ -319,9 +337,11 @@ class BERTCLAMModel(nn.Module):
             else:
                 self.eval()
     
-    def get_grammar_features(self, input_ids: torch.Tensor, 
+    def get_grammar_features(self, input_ids: torch.Tensor,
                            attention_mask: torch.Tensor) -> torch.Tensor:
         """获取语法特征"""
+        if not self.grammar_aware:
+            return torch.tensor([], device=self.device)
         with torch.no_grad():
             outputs = self.backbone(input_ids, attention_mask)
             sequence_output = outputs['sequence_output']

@@ -2,14 +2,26 @@
 BERT-CLAM核心模块
 """
 
-from .amr import AdaptiveMemoryRetrieval
+from .memory_replay_bank import AdaptiveMemoryRetrieval
 from .ewc import ElasticWeightConsolidation
 from .alp import AdaptiveLoRAFusion
 from .grammar_aware import GrammarAwareModule
+from .strategy import (
+    ContinualLearningStrategy,
+    EWCStrategy,
+    MRBStrategy,
+    ALPStrategy,
+    GrammarStrategy
+)
 
 __all__ = [
     "AdaptiveMemoryRetrieval",
-    "ElasticWeightConsolidation", 
+    "ElasticWeightConsolidation",
     "AdaptiveLoRAFusion",
-    "GrammarAwareModule"
+    "GrammarAwareModule",
+    "ContinualLearningStrategy",
+    "EWCStrategy",
+    "MRBStrategy",
+    "ALPStrategy",
+    "GrammarStrategy"
 ]

@@ -1,0 +1,32 @@
+site_name: BERT-CLAM Framework
+site_description: A Modular Framework for Continual Learning Research.
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+repo_url: https://github.com/Solid-Sea/bert_clam
+repo_name: Solid-Sea/bert_clam
+
+nav:
+  - 'Home': 'index.md'
+  - 'Getting Started':
+    - 'Installation': 'getting-started/installation.md'
+    - 'Quick Start': 'getting-started/quick-start.md'
+  - 'Core Concepts':
+    - 'Architecture': 'concepts/architecture.md'
+    - 'Strategy Pattern': 'concepts/strategy_pattern.md'
+  - 'Tutorials':
+    - 'End-to-End Example': 'tutorials/notebook_guide.md'
+  - 'Developer Guide': # <-- Add this new section
+      - 'Testing': 'developer/testing.md'
+  - 'API Reference':
+    - 'Core Strategies': 'api/strategy.md'
+    - 'Main Model': 'api/bert_clam_model.md'

@@ -1,86 +1,164 @@
-# BERT-CLAM: BERT-based Continual Learning with Adaptive Memory
+# BERT-CLAM: A Modular Framework for Continual Learning Research
 
-BERT-CLAM is a continual learning framework built on top of the powerful BERT model. It is designed to learn from a sequence of tasks without catastrophically forgetting previously learned knowledge.
+**BERT-CLAM** is a flexible, production-ready framework for prototyping and comparing continual learning strategies on NLP tasks. Built on BERT and designed with modularity in mind, it enables researchers and developers to quickly experiment with different combinations of continual learning techniques.
 
-## Key Features
+## Overview
 
-*   **Continual Learning**: Learn from a sequence of tasks without significant performance degradation on previous tasks.
-*   **Adaptive Memory**: A sophisticated memory management system that stores and retrieves important samples from previous tasks.
-*   **Elastic Weight Consolidation (EWC)**: A regularization-based approach to prevent catastrophic forgetting.
-*   **Adaptive LoRA Pooling (ALP)**: A novel technique for pooling LoRA weights from similar tasks to improve performance on new tasks.
-*   **Grammar-Aware Attention**: A syntax-aware attention mechanism that enhances the model's understanding of grammatical structures.
+BERT-CLAM transforms continual learning research from hardcoded experiments into a composable, strategy-driven framework. Instead of modifying model code for each experiment, you simply configure which strategies to apply and in what order.
 
-## Installation
+**Key Value Proposition:**
+- Rapid Prototyping: Test new continual learning ideas in hours, not days
+- Fair Comparisons: Standardized evaluation across different strategies
+- Production-Ready: Clean architecture suitable for real-world deployment
 
-1.  **Create and activate a conda environment:**
-    ```bash
-    conda create -n bert_clam python=3.11 -y
-    conda activate bert_clam
-    ```
+## Core Features
 
-2.  **Install all dependencies from the lock file:**
-    ```bash
-    pip install -r requirements-lock.txt
-    ```
+### Modular by Design
 
-3.  **Install the library in editable mode:**
-    ```bash
-    pip install -e .
-    ```
-For more detailed instructions and troubleshooting, see `ENVIRONMENT_SETUP.md`.
+BERT-CLAM uses the Strategy Pattern to decouple continual learning techniques from the core model.
 
-## Quick Start: A Minimal Example
+### Built-in Strategies
 
-Here is a minimal example of how to use BERT-CLAM for a simple classification task.
+- **EWC**: Elastic Weight Consolidation - Prevents catastrophic forgetting via regularization
+- **MRB**: Memory Replay Bank - Retrieves and fuses knowledge from past tasks
+- **ALP**: Adaptive LoRA Pooling - Dynamically combines task-specific adaptations
+- **Grammar**: Grammar-Aware Attention - Leverages syntactic structure for better generalization
+
+### Reproducible Experiments
+
+All experiments are driven by JSON configuration files. Run experiments with a single command:
+```bash
+python run_experiment.py --config configs/example_strategy_config.json
+```
+
+## Quick Start
+
+### Installation
+
+```bash
+conda create -n bert_clam python=3.11 -y
+conda activate bert_clam
+pip install -r requirements-lock.txt
+pip install -e .
+```
+
+### Minimal Example
 
 ```python
 import torch
 from transformers import AutoTokenizer
 from bert_clam.models.bert_clam_model import BERTCLAMModel
 
-# 1. Configuration
-model_name = 'prajjwal1/bert-tiny'
-num_labels = 2
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+model = BERTCLAMModel(
+    model_name='bert-base-uncased',
+    num_labels=2,
+    enable_grammar=True,
+    enable_ewc=True
+)
 
-# 2. Load Tokenizer and Model
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = BERTCLAMModel(model_name=model_name, num_labels=num_labels, lora_enabled=False)
-model.eval() # Set to evaluation mode
-
-# 3. Prepare Input Data
-sentences = [
-    "This is a grammatically correct sentence.",
-    "This sentence is not correct grammar."
-]
-labels = torch.tensor([1, 0])
-
-inputs = tokenizer(sentences, padding=True, truncation=True, return_tensors="pt")
-
-# 4. Forward Pass
-with torch.no_grad():
-    outputs = model(
-        input_ids=inputs['input_ids'],
-        attention_mask=inputs['attention_mask'],
-        labels=labels
-    )
-
-# 5. Print Results
-predictions = torch.argmax(outputs['logits'], dim=-1)
-accuracy = (predictions == labels).float().mean()
-
+inputs = tokenizer("Example sentence", return_tensors="pt")
+outputs = model(**inputs, task_id=0)
 print(f"Logits: {outputs['logits']}")
-print(f"Predictions: {predictions}")
-print(f"Labels: {labels}")
-print(f"Accuracy: {accuracy.item():.2f}")
-print(f"Loss: {outputs['loss'].item():.4f}")
 ```
 
-## Testing
-
-The library includes a comprehensive test suite. To run the tests, execute the following command from the `bert_clam_library` directory:
+### Run a Full Experiment
 
 ```bash
-python complete_test.py
+python run_experiment.py --config configs/ablation_full_model.json
 ```
 
-**Current Test Status:** 🎉 **100% (10/10) tests passing!**
+## Architecture Deep Dive
+
+### Strategy Pattern Implementation
+
+The framework uses a clean strategy pattern where each continual learning technique is encapsulated in its own strategy class:
+
+- [`ContinualLearningStrategy`](bert_clam/core/strategy.py:11): Abstract base class
+- [`EWCStrategy`](bert_clam/core/strategy.py:28), [`MRBStrategy`](bert_clam/core/strategy.py:45), [`ALPStrategy`](bert_clam/core/strategy.py:68), [`GrammarStrategy`](bert_clam/core/strategy.py:91): Concrete implementations
+- [`BERTCLAMModel`](bert_clam/models/bert_clam_model.py:17): Orchestrates strategy execution
+
+### Execution Flow
+
+```python
+current_output = sequence_output
+for strategy in self.strategies:
+    current_output, strategy_loss = strategy.apply(
+        hidden_states=current_output,
+        model_output=backbone_outputs,
+        task_id=task_id
+    )
+```
+
+## How to Add Your Own Strategy
+
+Adding a custom continual learning strategy takes 5 simple steps:
+
+### Step 1: Implement the Strategy Class
+
+```python
+from bert_clam.core.strategy import ContinualLearningStrategy
+
+class MyCustomStrategy(ContinualLearningStrategy):
+    def __init__(self, my_module):
+        super().__init__("MyCustom")
+        self.module = my_module
+    
+    def apply(self, hidden_states, model_output, task_id, **kwargs):
+        enhanced_states = self.module(hidden_states)
+        return enhanced_states, None
+```
+
+### Step 2: Register in Strategy Factory
+
+Edit [`run_experiment.py`](run_experiment.py:31) to add your strategy type.
+
+### Step 3: Update Model Initialization
+
+Add your module to [`BERTCLAMModel`](bert_clam/models/bert_clam_model.py:20).
+
+### Step 4: Configure in JSON
+
+```json
+{
+  "strategies": [
+    {"type": "my_custom", "enabled": true}
+  ]
+}
+```
+
+### Step 5: Run Experiment
+
+```bash
+python run_experiment.py --config configs/my_custom_experiment.json
+```
+
+## Example Configurations
+
+See [`configs/`](configs/) for examples:
+- `ablation_baseline.json`: No continual learning
+- `ablation_ewc_only.json`: EWC only
+- `ablation_full_model.json`: All strategies
+- `example_strategy_config.json`: Custom strategy ordering
+
+## Limitations
+
+Current limitations:
+1. Tested primarily on GLUE benchmark subsets
+2. Full model requires approximately 2x training time vs baseline
+3. MRB strategy increases memory usage
+4. Hyperparameters require tuning per dataset
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## 📚 Documentation
+
+To build and serve the documentation locally, run the following command:
+
+```bash
+mkdocs serve
+```
+
+Then, open your browser to `http://127.0.0.1:8000`.

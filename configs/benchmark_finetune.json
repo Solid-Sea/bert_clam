@@ -1,0 +1,27 @@
+{
+  "experiment_name": "benchmark_finetune",
+  "bert_model": "bert-base-uncased",
+  "output_dir": "./experiments/benchmark_comparison/finetune",
+  "tasks": [
+    "mnli",
+    "qnli",
+    "qqp"
+  ],
+  "model_config": {
+    "enable_ewc": false,
+    "enable_amr": false,
+    "enable_alp": false,
+    "enable_grammar": false,
+    "lora_enabled": false
+  },
+  "training_config": {
+    "learning_rate": 2e-05,
+    "batch_size": 16,
+    "epochs_per_task": 1,
+    "max_length": 128,
+    "num_train_samples": 1000,
+    "num_val_samples": 500
+  },
+  "use_wandb": true,
+  "wandb_project": "bert-clam"
+}

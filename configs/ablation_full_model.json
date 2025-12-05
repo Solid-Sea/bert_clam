@@ -1,0 +1,30 @@
+{
+  "experiment_name": "ablation_full_model",
+  "bert_model": "bert-base-uncased",
+  "output_dir": "./experiments/ablation_study/full_model",
+  "tasks": [
+    "mnli",
+    "qnli",
+    "qqp"
+  ],
+  "model_config": {
+    "enable_ewc": true,
+    "ewc_lambda": 1000.0,
+    "enable_amr": true,
+    "amr_k": 10,
+    "enable_alp": true,
+    "alp_top_k": 3,
+    "enable_grammar": true,
+    "lora_enabled": false
+  },
+  "training_config": {
+    "learning_rate": 2e-05,
+    "batch_size": 16,
+    "epochs_per_task": 1,
+    "max_length": 128,
+    "num_train_samples": 1000,
+    "num_val_samples": 500
+  },
+  "use_wandb": true,
+  "wandb_project": "bert-clam"
+}

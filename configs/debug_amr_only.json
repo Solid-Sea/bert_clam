@@ -1,0 +1,27 @@
+{
+  "experiment_name": "debug_amr_only",
+  "bert_model": "bert-base-uncased",
+  "output_dir": "./experiments/debug/amr_only",
+  "tasks": [
+    "qnli",
+    "qqp"
+  ],
+  "model_config": {
+    "enable_ewc": false,
+    "enable_amr": true,
+    "amr_k": 10,
+    "enable_alp": false,
+    "enable_grammar": false,
+    "lora_enabled": false
+  },
+  "training_config": {
+    "learning_rate": 2e-05,
+    "batch_size": 16,
+    "epochs_per_task": 1,
+    "max_length": 128,
+    "num_train_samples": 500,
+    "num_val_samples": 200
+  },
+  "use_wandb": false,
+  "wandb_project": "bert-clam"
+}

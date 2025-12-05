@@ -12,6 +12,7 @@ from tqdm import tqdm
 import numpy as np
 import logging
 import traceback
+import wandb
 
 # 配置日志
 logging.basicConfig(
@@ -33,13 +34,20 @@ from bert_clam.evaluation.forgetting_evaluator import ForgettingEvaluator  # 修
 class BERTCLAMTrainer:
     """BERT-CLAM训练器"""
     
-    def __init__(self, 
+    def __init__(self,
                  model: BERTCLAMModel,
                  config: Dict[str, Any],
-                 output_dir: str = "./experiments"):
+                 output_dir: str = "./experiments",
+                 use_wandb: bool = False,
+                 wandb_project: str = "bert-clam",
+                 wandb_run_name: str = None):
         self.model = model
         self.config = config
         self.output_dir = output_dir
+        self.use_wandb = use_wandb
+        
+        if self.use_wandb:
+            wandb.init(project=wandb_project, name=wandb_run_name, config=config)
         
         # 创建输出目录
         os.makedirs(output_dir, exist_ok=True)
@@ -56,13 +64,17 @@ class BERTCLAMTrainer:
             weight_decay=config.get('weight_decay', 0.01)
         )
         
-        # 学习率调度器
+        # 学习率调度器 - 根据实际训练步数动态计算
         from transformers import get_linear_schedule_with_warmup
-        self.scheduler = get_linear_schedule_with_warmup(
-            self.optimizer,
-            num_warmup_steps=config.get('warmup_steps', 100),
-            num_training_steps=config.get('num_training_steps', 1000)
-        )
+        # 如果配置中没有指定，则不创建调度器（使用常数学习率）
+        if 'warmup_steps' in config or 'num_training_steps' in config:
+            self.scheduler = get_linear_schedule_with_warmup(
+                self.optimizer,
+                num_warmup_steps=config.get('warmup_steps', 0),
+                num_training_steps=config.get('num_training_steps', 1000)
+            )
+        else:
+            self.scheduler = None
         
         # 初始化遗忘评估器
         self.forgetting_evaluator = ForgettingEvaluator()
@@ -170,6 +182,12 @@ class BERTCLAMTrainer:
                         'lr': f'{self.optimizer.param_groups[0]["lr"]:.2e}'
                     })
                     
+                    if self.use_wandb:
+                        wandb.log({
+                            f'task_{task_id}/loss': loss.item(),
+                            f'task_{task_id}/lr': self.optimizer.param_groups[0]["lr"]
+                        })
+                    
                     # 更新记忆库
                     with torch.no_grad():
                         self.model.update_memory(
@@ -188,12 +206,17 @@ class BERTCLAMTrainer:
             avg_loss = total_loss / num_batches
             logger.info(f"Task {task_id}, Epoch {epoch+1}, Average Loss: {avg_loss:.4f}")
             
+            if self.use_wandb:
+                wandb.log({f'task_{task_id}/epoch_loss': avg_loss, 'epoch': epoch})
+            
             # 验证（如果提供验证数据）
             # 注意: 这里的验证只是训练过程中的监控,不记录到性能历史
             if val_loader:
                 try:
                     val_acc = self.evaluate(val_loader, task_id, record_performance=False)
                     logger.info(f"Task {task_id}, Validation Accuracy: {val_acc:.4f}")
+                    if self.use_wandb:
+                        wandb.log({f'task_{task_id}/val_accuracy': val_acc, 'epoch': epoch})
                 except Exception as e:
                     logger.error(f"验证失败: {str(e)}")
                     logger.error(traceback.format_exc())
@@ -237,6 +260,25 @@ class BERTCLAMTrainer:
         correct = 0
         total = 0
         
+        # 🔍 诊断日志：记录模型分类器参数状态
+        try:
+            if hasattr(self.model.backbone.bert.classifier, 'weight'):
+                classifier_params = self.model.backbone.bert.classifier.weight.data
+            elif hasattr(self.model.backbone.bert.classifier, 'linear'):
+                classifier_params = self.model.backbone.bert.classifier.linear.weight.data
+            else:
+                # LoRA注入的情况，获取基础权重
+                classifier_params = None
+                for name, param in self.model.backbone.bert.classifier.named_parameters():
+                    if 'weight' in name and param.requires_grad:
+                        classifier_params = param.data
+                        break
+            
+            if classifier_params is not None:
+                logger.info(f"[DIAG] Eval Task {task_id} - Classifier params mean: {classifier_params.mean().item():.6f}, std: {classifier_params.std().item():.6f}")
+        except Exception as e:
+            logger.warning(f"[DIAG] Cannot get classifier params: {e}")
+        
         with torch.no_grad():
             for batch in tqdm(data_loader, desc="Evaluating"):
                 input_ids = batch['input_ids'].to(self.model.device)
@@ -260,7 +302,10 @@ class BERTCLAMTrainer:
             if task_id not in self.task_performance_history:
                 self.task_performance_history[task_id] = []
             self.task_performance_history[task_id].append(accuracy)
-            logger.debug(f"记录Task {task_id}性能: {accuracy:.4f}, 当前历史: {self.task_performance_history[task_id]}")
+            logger.info(f"[DIAG] Record Task {task_id} performance: {accuracy:.4f}, history length: {len(self.task_performance_history[task_id])}, full history: {self.task_performance_history[task_id]}")
+            
+            if self.use_wandb:
+                wandb.log({f'eval/task_{task_id}_accuracy': accuracy})
         
         return accuracy
     
@@ -389,6 +434,15 @@ class BERTCLAMTrainer:
         """保存检查点"""
         checkpoint_path = f"{self.output_dir}/checkpoints/model_task_{task_id}.pt"
         
+        # 🔍 诊断：记录保存时的模型状态
+        if hasattr(self.model.backbone.bert.classifier, 'weight'):
+            classifier_weight = self.model.backbone.bert.classifier.weight.data
+            weight_hash = hash(classifier_weight.cpu().numpy().tobytes())
+            weight_mean = classifier_weight.mean().item()
+            logger.info(f"[DEBUG] 保存任务 {task_id} 检查点")
+            logger.info(f"[DEBUG] 分类器权重哈希: {weight_hash}")
+            logger.info(f"[DEBUG] 分类器权重均值: {weight_mean:.6f}")
+        
         checkpoint = {
             'model_state_dict': self.model.state_dict(),
             'optimizer_state_dict': self.optimizer.state_dict(),
@@ -455,6 +509,11 @@ class BERTCLAMTrainer:
             'forgetting_rates': {}
         }
         
+        # Diagnostic log: print complete performance history
+        logger.info(f"[DIAG] ===== Performance History Details =====")
+        for task_id, performances in self.task_performance_history.items():
+            logger.info(f"[DIAG] Task {task_id}: {performances}")
+        
         # 最终准确率
         for task_id, performances in self.task_performance_history.items():
             if performances:
@@ -472,8 +531,21 @@ class BERTCLAMTrainer:
                 forgetting = max(0.0, peak_performance - final_performance)
                 summary['forgetting_rates'][task_id] = forgetting
                 all_forgetting_rates.append(forgetting)
+                
+                # Diagnostic log: detailed forgetting rate calculation
+                logger.info(f"[DIAG] Task {task_id} forgetting calculation: peak={peak_performance:.4f}, final={final_performance:.4f}, forgetting={forgetting:.4f}")
         
         if all_forgetting_rates:
             summary['average_forgetting'] = np.mean(all_forgetting_rates)
+        
+        logger.info(f"[DIAG] Average forgetting rate: {summary['average_forgetting']:.4f}")
+        
+        if self.use_wandb:
+            wandb.log({
+                'final/average_forgetting': summary['average_forgetting'],
+                'final/total_tasks': summary['total_tasks']
+            })
+            for task_id, acc in summary['final_accuracies'].items():
+                wandb.log({f'final/task_{task_id}_accuracy': acc})
         
         return summary

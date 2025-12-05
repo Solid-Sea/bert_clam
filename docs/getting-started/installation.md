@@ -47,13 +47,6 @@ pip install -r requirements.txt
 
 # 6. 安装 BERT-CLAM 库
 pip install -e .
-
-# 7. 验证安装
-python -c "from transformers import BertModel; print('✓ BertModel 导入成功')"
-python -c "import bert_clam; from bert_clam.training import BERTCLAMTrainer; print('✓ BERT-CLAM 导入成功')"
-
-# 8. 运行完整测试
-python complete_test.py
 ```
 
 ## 验证安装
@@ -63,9 +56,7 @@ python complete_test.py
 ```python
 # 测试基本导入
 python -c "import bert_clam; print('BERT-CLAM 版本:', bert_clam.__version__)"
-
-# 测试训练器
-python -c "from bert_clam.training import BERTCLAMTrainer; print('✓ 训练器可用')"
+python -c "from bert_clam.training import BERTCLAMTrainer; print('✓ BERTCLAMTrainer 导入成功')"
 
 # 运行完整测试
 python complete_test.py
@@ -134,12 +125,12 @@ scikit-learn: 1.3.0
 
 安装成功后，您可以：
 
-1. 查看 [README.md](README.md) 了解使用方法
+1. 查看 [README.md](../../README.md) 了解使用方法
 2. 运行示例代码测试功能
 3. 开始您的持续学习实验
 
 ## 获取帮助
 
 如果遇到问题，请查看：
-- [ENVIRONMENT_COMPATIBILITY_REPORT.md](ENVIRONMENT_COMPATIBILITY_REPORT.md) - 环境兼容性详细信息
-- [README.md](README.md) - 完整文档
+- [ENVIRONMENT_COMPATIBILITY_REPORT.md](../../ENVIRONMENT_COMPATIBILITY_REPORT.md) - 环境兼容性详细信息
+- [README.md](../../README.md) - 完整文档
