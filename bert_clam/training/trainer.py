@@ -92,8 +92,9 @@ class BERTCLAMTrainer:
         self.task_performance_history = {}
         self.task_names = []  # 存储任务名称
 
-        # 混合精度
-        self.scaler = torch.cuda.amp.GradScaler(enabled=self.model.device.type == 'cuda')
+        # 禁用混合精度训练以避免兼容性问题
+        self.use_amp = False
+        self.scaler = None
     
     def train_task(self,
                    task_id: int,
@@ -131,7 +132,13 @@ class BERTCLAMTrainer:
                 try:
                     input_ids = batch['input_ids'].to(self.model.device)
                     attention_mask = batch['attention_mask'].to(self.model.device)
-                    labels = batch['labels'].to(self.model.device)
+                    # 尝试获取标签，支持 'labels' 和 'label' 两种格式
+                    if 'labels' in batch:
+                        labels = batch['labels'].to(self.model.device)
+                    elif 'label' in batch:
+                        labels = batch['label'].to(self.model.device)
+                    else:
+                        raise KeyError("Batch does not contain 'labels' or 'label' key")
                     
                     # 确保标签维度正确
                     if labels.dim() == 2 and labels.size(-1) == self.model.num_labels:
@@ -142,33 +149,26 @@ class BERTCLAMTrainer:
                     labels = labels.long()
                     labels = torch.clamp(labels, 0, self.model.num_labels - 1)
                     
-                    # 前向传播
-                    device_type = 'cuda' if self.model.device.type == 'cuda' else 'cpu'
-                    with torch.amp.autocast(device_type, enabled=self.model.device.type == 'cuda'):
-                        outputs = self.model(
-                            input_ids=input_ids,
-                            attention_mask=attention_mask,
-                            labels=labels,
-                            task_id=task_id
-                        )
-                        
-                        if 'loss' in outputs:
-                            loss = outputs['loss']
-                        else:
-                            logits = outputs['logits']
-                            loss = nn.functional.cross_entropy(logits, labels)
+                    # 前向传播(不使用混合精度)
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels,
+                        task_id=task_id
+                    )
+                    
+                    if 'loss' in outputs:
+                        loss = outputs['loss']
+                    else:
+                        logits = outputs['logits']
+                        loss = nn.functional.cross_entropy(logits, labels)
                     
                     # 反向传播
                     self.optimizer.zero_grad()
-                    self.scaler.scale(loss).backward()
-                    
-                    # 梯度裁剪
-                    self.scaler.unscale_(self.optimizer)
+                    loss.backward()
                     torch.nn.utils.clip_grad_norm_(self.model.parameters(),
                                                  self.config.get('gradient_clip', 1.0))
-                    
-                    self.scaler.step(self.optimizer)
-                    self.scaler.update()
+                    self.optimizer.step()
                     
                     if self.scheduler:
                         self.scheduler.step()
@@ -283,7 +283,13 @@ class BERTCLAMTrainer:
             for batch in tqdm(data_loader, desc="Evaluating"):
                 input_ids = batch['input_ids'].to(self.model.device)
                 attention_mask = batch['attention_mask'].to(self.model.device)
-                labels = batch['labels'].to(self.model.device)
+                # 尝试获取标签，支持 'labels' 和 'label' 两种格式
+                if 'labels' in batch:
+                    labels = batch['labels'].to(self.model.device)
+                elif 'label' in batch:
+                    labels = batch['label'].to(self.model.device)
+                else:
+                    raise KeyError("Batch does not contain 'labels' or 'label' key")
                 
                 outputs = self.model(
                     input_ids=input_ids,

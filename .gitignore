@@ -140,3 +140,6 @@ cola_test_output/
 archive/
 test_examples/
 benchmark_output/
+
+# Experiment outputs
+experiments/

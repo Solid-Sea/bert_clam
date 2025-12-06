@@ -232,8 +232,8 @@ class ContinualDataset:
             dataset,
             batch_size=batch_size,
             shuffle=shuffle,
-            num_workers=4,
-            pin_memory=True
+            num_workers=0,  # 禁用多进程以避免Windows上的问题
+            pin_memory=False
         )
     
     def get_task_sequence(self, 
