@@ -30,3 +30,4 @@ All experiments are driven by JSON configuration files. Run experiments with a s
 
 ```bash
 python run_experiment.py --config configs/example_strategy_config.json
+```

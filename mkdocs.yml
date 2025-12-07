@@ -1,49 +1,92 @@
-site_name: BERT-CLAM
-site_url: https://solid-sea.github.io/bert_clam/
-repo_url: https://github.com/Solid-Sea/bert_clam
-repo_name: Solid-Sea/bert_clam
+site_name: BERT-CLAM Framework
+site_url: https://your-github-username.github.io/bert_clam/
+repo_url: https://github.com/your-github-username/bert_clam
+repo_name: your-github-username/bert_clam
 
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
   palette:
     - scheme: default
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-sunny
         name: Switch to dark mode
     - scheme: slate
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-night
         name: Switch to light mode
-  features:
-    - navigation.tabs
-    - navigation.top
-    - search.highlight
 
 plugins:
   - search
-  - i18n:
+  - mkdocs-static-i18n:
+      # 关键修正：将文档结构设置为 'folder'，以匹配 docs/en, docs/zh 的目录组织
       docs_structure: folder
       languages:
         - locale: en
           name: English
+          build: true
           default: true
+          # 为英文版定义导航
+          nav:
+            - Home: index.md
+            - Getting Started:
+              - 'getting-started/installation.md'
+              - 'getting-started/quick-start.md'
+            - Tutorials:
+              - 'tutorials/notebook_guide.md'
+            - Concepts:
+              - 'concepts/architecture.md'
+              - 'concepts/strategy_pattern.md'
+            - Developer Guide:
+              - 'developer/contributing.md'
+              - 'developer/testing.md'
+            - API Reference:
+              - 'api/bert_clam_model.md'
+              - 'api/strategy.md'
         - locale: zh
           name: 中文
+          build: true
+          # 为中文版定义导航
+          nav:
+            - 首页: index.md
+            - 快速上手:
+              - 'getting-started/installation.md'
+              - 'getting-started/quick-start.md'
+            - 教程:
+              - 'tutorials/notebook_guide.md'
+            - 核心概念:
+              - 'concepts/architecture.md'
+              - 'concepts/strategy_pattern.md'
+            - 开发者指南:
+              - 'developer/contributing.md'
+              - 'developer/testing.md'
+            - API 参考:
+              - 'api/bert_clam_model.md'
+              - 'api/strategy.md'
 
-nav:
-  - English:
-    - 'Home': 'en/index.md'
-    - 'Getting Started':
-      - 'Installation': 'en/getting-started/installation.md'
-      - 'Quick Start': 'en/getting-started/quick-start.md'
-    - 'Concepts':
-      - 'Architecture': 'en/concepts/architecture.md'
-      - 'Strategy Pattern': 'en/concepts/strategy_pattern.md'
-    - 'Developer Guide':
-      - 'Contributing': 'en/developer/contributing.md'
-      - 'Testing': 'en/developer/testing.md'
-    - 'API Reference':
-      - 'BERTCLAMModel': 'en/api/bert_clam_model.md'
-      - 'Strategy': 'en/api/strategy.md'
-  - 中文:
-    - '首页': 'zh/index.md'
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/your-github-username
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - md_in_html

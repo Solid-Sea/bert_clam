@@ -10,13 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      wheel_name: ${{ steps.get_wheel_name.outputs.WHEEL_NAME }}
+      wheel_path: ${{ steps.get_wheel_name.outputs.WHEEL_PATH }}
       version: ${{ steps.get_version.outputs.VERSION }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      # Fetch all history for all tags and branches
+      # Fetch all history for all tags and branches for the changelog
       with:
         fetch-depth: 0
 
@@ -29,7 +29,7 @@ jobs:
       id: get_version
       run: echo "VERSION=$(python -c "import bert_clam; print(bert_clam.__version__)")" >> $GITHUB_OUTPUT
 
-    - name: Install dependencies
+    - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build
@@ -37,15 +37,24 @@ jobs:
     - name: Build wheel
       run: python -m build --wheel
 
-    - name: Get wheel filename
+    - name: Verify wheel artifact and get path
       id: get_wheel_name
-      run: echo "WHEEL_NAME=$(ls dist/*.whl)" >> $GITHUB_OUTPUT
+      run: |
+        ls -l dist/
+        WHEEL_FILE=$(ls dist/*.whl)
+        if [ -f "$WHEEL_FILE" ]; then
+          echo "Wheel built successfully: $WHEEL_FILE"
+          echo "WHEEL_PATH=$WHEEL_FILE" >> $GITHUB_OUTPUT
+        else
+          echo "Error: Wheel file not found in dist/ directory."
+          exit 1
+        fi
 
     - name: Upload wheel artifact
       uses: actions/upload-artifact@v4
       with:
         name: bert-clam-wheel
-        path: dist/*.whl
+        path: ${{ steps.get_wheel_name.outputs.WHEEL_PATH }}
 
   release:
     needs: build
@@ -57,13 +66,12 @@ jobs:
       with:
         name: bert-clam-wheel
 
+    - name: Verify downloaded artifact
+      run: ls -l
+
     - name: Generate changelog
       id: changelog
       uses: mikepenz/release-changelog-builder-action@v4
-      with:
-        # This will automatically find the previous release tag
-        fromTag: ${{ github.event.release.tag_name }}
-        toTag: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -71,6 +79,8 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v2
       with:
+        # 关键修正 1: 使用具有 repo 权限的 PAT 来创建 Release
+        token: ${{ secrets.RELEASE_TOKEN }}
         tag_name: v${{ needs.build.outputs.version }}-weekly-${{ github.run_number }}
         name: Weekly Build v${{ needs.build.outputs.version }} (Build #${{ github.run_number }})
         body: |
@@ -84,4 +94,5 @@ jobs:
           ### 📦 Assets
           The attached `.whl` file is the pre-compiled package for this build.
         prerelease: true
-        files: ${{ needs.build.outputs.wheel_name }}
+        # 关键修正 2: 使用经过验证的、更健壮的路径变量
+        files: ${{ needs.build.outputs.wheel_path }}
