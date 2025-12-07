@@ -1,95 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/assets/diagrams/add_new_strategy/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/assets/diagrams/add_new_strategy/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/add_new_strategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/add_new_strategy/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/assets/diagrams/architecture/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/assets/diagrams/architecture/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/architecture/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/assets/diagrams/comparison/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/assets/diagrams/comparison/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/comparison/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/comparison/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/api/bert_clam_model/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/api/bert_clam_model/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/api/bert_clam_model/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/api/bert_clam_model/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/api/strategy/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/api/strategy/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/api/strategy/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/api/strategy/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/concepts/architecture/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/concepts/architecture/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/concepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/concepts/architecture/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/concepts/strategy_pattern/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/concepts/strategy_pattern/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/concepts/strategy_pattern/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/concepts/strategy_pattern/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/developer/contributing/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/developer/contributing/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/developer/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/developer/contributing/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/developer/testing/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/developer/testing/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/developer/testing/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/developer/testing/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/getting-started/installation/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/getting-started/installation/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/getting-started/installation/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/getting-started/quick-start/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/getting-started/quick-start/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/getting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/getting-started/quick-start/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/en/tutorials/notebook_guide/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/tutorials/notebook_guide/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/tutorials/notebook_guide/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/tutorials/notebook_guide/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/add_new_strategy/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/add_new_strategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/add_new_strategy/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/api/bert_clam_model/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/architecture/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/architecture/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/api/strategy/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/comparison/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/assets/diagrams/comparison/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/assets/diagrams/comparison/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/concepts/architecture/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/concepts/strategy_pattern/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/api/bert_clam_model/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/api/bert_clam_model/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/api/bert_clam_model/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/developer/contributing/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/api/strategy/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/api/strategy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/api/strategy/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/developer/testing/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/concepts/architecture/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/concepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/concepts/architecture/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/getting-started/installation/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/concepts/strategy_pattern/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/concepts/strategy_pattern/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/concepts/strategy_pattern/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/getting-started/quick-start/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/developer/contributing/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/developer/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/developer/contributing/"/>
     </url>
     <url>
-         <loc>https://your-github-username.github.io/bert_clam/zh/tutorials/notebook_guide/</loc>
-         <lastmod>2025-12-07</lastmod>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/developer/testing/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/developer/testing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/developer/testing/"/>
+    </url>
+    <url>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/getting-started/installation/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/getting-started/installation/"/>
+    </url>
+    <url>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/getting-started/quick-start/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/getting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/getting-started/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://Solid-Sea.github.io/bert_clam/zh/tutorials/notebook_guide/</loc>
+        <lastmod>2025-12-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://Solid-Sea.github.io/bert_clam/zh/tutorials/notebook_guide/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://Solid-Sea.github.io/bert_clam/tutorials/notebook_guide/"/>
     </url>
 </urlset>
