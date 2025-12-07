@@ -40,6 +40,7 @@ jobs:
     - name: Verify wheel artifact and get path
       id: get_wheel_name
       run: |
+        echo "Listing contents of dist/ directory:"
         ls -l dist/
         WHEEL_FILE=$(ls dist/*.whl)
         if [ -f "$WHEEL_FILE" ]; then
@@ -67,7 +68,9 @@ jobs:
         name: bert-clam-wheel
 
     - name: Verify downloaded artifact
-      run: ls -l
+      run: |
+        echo "Listing contents of current directory after download:"
+        ls -l
 
     - name: Generate changelog
       id: changelog
@@ -94,5 +97,5 @@ jobs:
           ### 📦 Assets
           The attached `.whl` file is the pre-compiled package for this build.
         prerelease: true
-        # 关键修正 2: 使用经过验证的、更健壮的路径变量
+        # 关键修正 2: 使用经过验证的、从上一步输出的动态路径
         files: ${{ needs.build.outputs.wheel_path }}
