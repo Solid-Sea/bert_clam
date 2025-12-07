@@ -16,7 +16,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      # Fetch all history for all tags and branches for the changelog
       with:
         fetch-depth: 0
 
@@ -40,16 +39,8 @@ jobs:
     - name: Verify wheel artifact and get path
       id: get_wheel_name
       run: |
-        echo "Listing contents of dist/ directory:"
-        ls -l dist/
         WHEEL_FILE=$(ls dist/*.whl)
-        if [ -f "$WHEEL_FILE" ]; then
-          echo "Wheel built successfully: $WHEEL_FILE"
-          echo "WHEEL_PATH=$WHEEL_FILE" >> $GITHUB_OUTPUT
-        else
-          echo "Error: Wheel file not found in dist/ directory."
-          exit 1
-        fi
+        echo "WHEEL_PATH=$WHEEL_FILE" >> $GITHUB_OUTPUT
 
     - name: Upload wheel artifact
       uses: actions/upload-artifact@v4
@@ -62,15 +53,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 关键修正: 在 release job 中也必须检出代码，以便访问 Git 历史
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
     - name: Download wheel artifact
       uses: actions/download-artifact@v4
       with:
         name: bert-clam-wheel
-
-    - name: Verify downloaded artifact
-      run: |
-        echo "Listing contents of current directory after download:"
-        ls -l
 
     - name: Generate changelog
       id: changelog
@@ -82,20 +74,15 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v2
       with:
-        # 关键修正 1: 使用具有 repo 权限的 PAT 来创建 Release
         token: ${{ secrets.RELEASE_TOKEN }}
         tag_name: v${{ needs.build.outputs.version }}-weekly-${{ github.run_number }}
         name: Weekly Build v${{ needs.build.outputs.version }} (Build #${{ github.run_number }})
         body: |
           ## Weekly Pre-release Build
-
           This is an automated weekly build of the `bert_clam` framework.
-
           ### 🚀 Changes
           ${{ steps.changelog.outputs.changelog }}
-
           ### 📦 Assets
           The attached `.whl` file is the pre-compiled package for this build.
         prerelease: true
-        # 关键修正 2: 使用经过验证的、从上一步输出的动态路径
         files: ${{ needs.build.outputs.wheel_path }}
