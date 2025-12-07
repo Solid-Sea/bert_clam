@@ -24,6 +24,21 @@ BERT-CLAM uses the Strategy Pattern to decouple continual learning techniques fr
 - **ALP**: Adaptive LoRA Pooling - Dynamically combines task-specific adaptations
 - **Grammar**: Grammar-Aware Attention - Leverages syntactic structure for better generalization
 
+### Why BERT-CLAM?
+
+| 特性 | 传统微调 | EWC | BERT-CLAM |
+|------|---------|-----|-----------|
+| **灾难性遗忘** 🧠 | ❌ 严重 | ⚠️ 中等 | ✅ 轻微 |
+| **新任务适应** 🚀 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **旧任务保持** 🔒 | ⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **计算开销** 💻 | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **内存占用** 💾 | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **实现复杂度** 🛠️ | ⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **可扩展性** 📈 | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **语法一致性** 📝 | ❌ 无保证 | ❌ 无保证 | ✅ 强保证 |
+
+**核心优势**: BERT-CLAM 通过组合多种持续学习策略，在保持旧任务性能的同时，实现了对新任务的快速适应，并通过语法约束确保了输出的一致性和可靠性。
+
 ### Reproducible Experiments
 
 All experiments are driven by JSON configuration files. Run experiments with a single command:

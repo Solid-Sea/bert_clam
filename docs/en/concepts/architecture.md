@@ -2,6 +2,8 @@
 
 This section provides a detailed overview of the BERT-CLAM framework architecture.
 
+![BERT-CLAM Core Architecture](../assets/diagrams/architecture.png)
+
 ## Strategy Pattern Implementation
 
 The framework uses a clean strategy pattern where each continual learning technique is encapsulated in its own strategy class:

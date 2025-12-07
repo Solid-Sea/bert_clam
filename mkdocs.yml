@@ -1,32 +1,49 @@
-site_name: BERT-CLAM Framework
-site_description: A Modular Framework for Continual Learning Research.
-theme:
-  name: material
-  palette:
-    scheme: default
-    primary: indigo
-    accent: indigo
-  features:
-    - navigation.tabs
-    - navigation.top
-    - navigation.instant
-    - search.suggest
-    - search.highlight
+site_name: BERT-CLAM
+site_url: https://solid-sea.github.io/bert_clam/
 repo_url: https://github.com/Solid-Sea/bert_clam
 repo_name: Solid-Sea/bert_clam
 
+theme:
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          name: English
+          default: true
+        - locale: zh
+          name: 中文
+
 nav:
-  - 'Home': 'index.md'
-  - 'Getting Started':
-    - 'Installation': 'getting-started/installation.md'
-    - 'Quick Start': 'getting-started/quick-start.md'
-  - 'Core Concepts':
-    - 'Architecture': 'concepts/architecture.md'
-    - 'Strategy Pattern': 'concepts/strategy_pattern.md'
-  - 'Tutorials':
-    - 'End-to-End Example': 'tutorials/notebook_guide.md'
-  - 'Developer Guide': # <-- Add this new section
-      - 'Testing': 'developer/testing.md'
-  - 'API Reference':
-    - 'Core Strategies': 'api/strategy.md'
-    - 'Main Model': 'api/bert_clam_model.md'
+  - English:
+    - 'Home': 'en/index.md'
+    - 'Getting Started':
+      - 'Installation': 'en/getting-started/installation.md'
+      - 'Quick Start': 'en/getting-started/quick-start.md'
+    - 'Concepts':
+      - 'Architecture': 'en/concepts/architecture.md'
+      - 'Strategy Pattern': 'en/concepts/strategy_pattern.md'
+    - 'Developer Guide':
+      - 'Contributing': 'en/developer/contributing.md'
+      - 'Testing': 'en/developer/testing.md'
+    - 'API Reference':
+      - 'BERTCLAMModel': 'en/api/bert_clam_model.md'
+      - 'Strategy': 'en/api/strategy.md'
+  - 中文:
+    - '首页': 'zh/index.md'
