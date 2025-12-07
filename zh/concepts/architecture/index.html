@@ -8,25 +8,31 @@
       
       
       
+        <link rel="canonical" href="https://your-github-username.github.io/bert_clam/zh/concepts/architecture/">
       
+      
+        <link rel="prev" href="../../api/strategy/">
+      
+      
+        <link rel="next" href="../strategy_pattern/">
       
       
         
       
       
-      <link rel="icon" href="/bert_clam/assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>BERT-CLAM Framework</title>
+        <title>Architecture Deep Dive - BERT-CLAM Framework</title>
       
     
     
-      <link rel="stylesheet" href="/bert_clam/assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="/bert_clam/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -45,7 +51,7 @@
       
     
     
-    <script>__md_scope=new URL("/bert_clam/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -69,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#architecture-deep-dive" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -79,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/bert_clam/." title="BERT-CLAM Framework" class="md-header__button md-logo" aria-label="BERT-CLAM Framework" data-md-component="logo">
+    <a href="../../.." title="BERT-CLAM Framework" class="md-header__button md-logo" aria-label="BERT-CLAM Framework" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -99,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Architecture Deep Dive
             
           </span>
         </div>
@@ -221,7 +232,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/bert_clam/assets/diagrams/add_new_strategy/" class="md-tabs__link">
+        <a href="../../../assets/diagrams/add_new_strategy/" class="md-tabs__link">
           
   
   
@@ -244,7 +255,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/bert_clam/en/" class="md-tabs__link">
+        <a href="../../../en/" class="md-tabs__link">
           
   
   
@@ -260,11 +271,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/bert_clam/zh/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -300,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/bert_clam/." title="BERT-CLAM Framework" class="md-nav__button md-logo" aria-label="BERT-CLAM Framework" data-md-component="logo">
+    <a href="../../.." title="BERT-CLAM Framework" class="md-nav__button md-logo" aria-label="BERT-CLAM Framework" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -434,7 +447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/assets/diagrams/add_new_strategy/" class="md-nav__link">
+      <a href="../../../assets/diagrams/add_new_strategy/" class="md-nav__link">
         
   
   
@@ -462,7 +475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/assets/diagrams/architecture/" class="md-nav__link">
+      <a href="../../../assets/diagrams/architecture/" class="md-nav__link">
         
   
   
@@ -490,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/assets/diagrams/comparison/" class="md-nav__link">
+      <a href="../../../assets/diagrams/comparison/" class="md-nav__link">
         
   
   
@@ -585,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/" class="md-nav__link">
+      <a href="../../../en/" class="md-nav__link">
         
   
   
@@ -665,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/api/bert_clam_model/" class="md-nav__link">
+      <a href="../../../en/api/bert_clam_model/" class="md-nav__link">
         
   
   
@@ -693,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/api/strategy/" class="md-nav__link">
+      <a href="../../../en/api/strategy/" class="md-nav__link">
         
   
   
@@ -781,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/concepts/architecture/" class="md-nav__link">
+      <a href="../../../en/concepts/architecture/" class="md-nav__link">
         
   
   
@@ -809,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/concepts/strategy_pattern/" class="md-nav__link">
+      <a href="../../../en/concepts/strategy_pattern/" class="md-nav__link">
         
   
   
@@ -897,7 +910,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/developer/contributing/" class="md-nav__link">
+      <a href="../../../en/developer/contributing/" class="md-nav__link">
         
   
   
@@ -925,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/developer/testing/" class="md-nav__link">
+      <a href="../../../en/developer/testing/" class="md-nav__link">
         
   
   
@@ -1013,7 +1026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/getting-started/installation/" class="md-nav__link">
+      <a href="../../../en/getting-started/installation/" class="md-nav__link">
         
   
   
@@ -1041,7 +1054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/getting-started/quick-start/" class="md-nav__link">
+      <a href="../../../en/getting-started/quick-start/" class="md-nav__link">
         
   
   
@@ -1129,7 +1142,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/en/tutorials/notebook_guide/" class="md-nav__link">
+      <a href="../../../en/tutorials/notebook_guide/" class="md-nav__link">
         
   
   
@@ -1169,26 +1182,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -1206,7 +1224,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1224,7 +1242,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
@@ -1258,17 +1276,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1304,7 +1325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/api/bert_clam_model/" class="md-nav__link">
+      <a href="../../api/bert_clam_model/" class="md-nav__link">
         
   
   
@@ -1332,7 +1353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/api/strategy/" class="md-nav__link">
+      <a href="../../api/strategy/" class="md-nav__link">
         
   
   
@@ -1365,26 +1386,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1402,7 +1428,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1417,10 +1443,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/bert_clam/zh/concepts/architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1436,6 +1489,142 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#strategy-pattern-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Pattern Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bert-backbone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BERT Backbone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lora-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LoRA Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continual-learning-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continual Learning Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loss-computation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loss Computation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1448,7 +1637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/concepts/strategy_pattern/" class="md-nav__link">
+      <a href="../strategy_pattern/" class="md-nav__link">
         
   
   
@@ -1490,17 +1679,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
         
           
-          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
             
   
   
@@ -1536,7 +1728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/developer/contributing/" class="md-nav__link">
+      <a href="../../developer/contributing/" class="md-nav__link">
         
   
   
@@ -1564,7 +1756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/developer/testing/" class="md-nav__link">
+      <a href="../../developer/testing/" class="md-nav__link">
         
   
   
@@ -1606,17 +1798,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
         
           
-          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
             
   
   
@@ -1652,7 +1847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/getting-started/installation/" class="md-nav__link">
+      <a href="../../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -1680,7 +1875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/getting-started/quick-start/" class="md-nav__link">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
         
   
   
@@ -1722,17 +1917,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
         
           
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
             
   
   
@@ -1768,7 +1966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bert_clam/zh/tutorials/notebook_guide/" class="md-nav__link">
+      <a href="../../tutorials/notebook_guide/" class="md-nav__link">
         
   
   
@@ -1817,8 +2015,116 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="architecture-deep-dive">Architecture Deep Dive</h1>
+<p>This section provides a detailed overview of the BERT-CLAM framework architecture.</p>
+<p><img alt="BERT-CLAM Core Architecture" src="../../../assets/diagrams/architecture.png" /></p>
+<h2 id="strategy-pattern-implementation">Strategy Pattern Implementation</h2>
+<p>The framework uses a clean strategy pattern where each continual learning technique is encapsulated in its own strategy class:</p>
+<ul>
+<li><code>ContinualLearningStrategy</code>: Abstract base class</li>
+<li><code>EWCStrategy</code>, <code>MRBStrategy</code>, <code>ALPStrategy</code>, <code>GrammarStrategy</code>: Concrete implementations</li>
+<li><code>BERTCLAMModel</code>: Orchestrates strategy execution</li>
+</ul>
+<p>The strategy pattern allows for flexible combination of different continual learning techniques without modifying core model code.</p>
+<h2 id="execution-flow">Execution Flow</h2>
+<p>The framework processes data through a chain of strategies:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">current_output</span> <span class="o">=</span> <span class="n">sequence_output</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategies</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">current_output</span><span class="p">,</span> <span class="n">strategy_loss</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="n">hidden_states</span><span class="o">=</span><span class="n">current_output</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="n">model_output</span><span class="o">=</span><span class="n">backbone_outputs</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">)</span>
+</code></pre></div>
+<p>This design enables:</p>
+<ol>
+<li><strong>Modularity</strong>: Each strategy is self-contained and can be enabled/disabled independently</li>
+<li><strong>Composability</strong>: Strategies can be combined in any order</li>
+<li><strong>Extensibility</strong>: New strategies can be added without modifying existing code</li>
+</ol>
+<h2 id="core-components">Core Components</h2>
+<h3 id="bert-backbone">BERT Backbone</h3>
+<p>The framework is built on top of BERT and includes:</p>
+<ul>
+<li>Enhanced BERT backbone with additional features</li>
+<li>Support for various BERT-based models</li>
+<li>Proper handling of hidden states and attention weights</li>
+</ul>
+<h3 id="lora-integration">LoRA Integration</h3>
+<ul>
+<li>Parameter-efficient fine-tuning using Low-Rank Adaptation (LoRA)</li>
+<li>Multi-task LoRA support for continual learning scenarios</li>
+<li>Dynamic adapter management for different tasks</li>
+</ul>
+<h3 id="memory-systems">Memory Systems</h3>
+<p>The framework includes several memory-based components:</p>
+<ul>
+<li><strong>Memory Replay Bank (MRB)</strong>: Stores and retrieves knowledge from past tasks</li>
+<li><strong>Task Memory</strong>: Maintains representations of previously learned tasks</li>
+<li><strong>Adaptive Memory</strong>: Dynamically adjusts memory usage based on task requirements</li>
+</ul>
+<h3 id="continual-learning-modules">Continual Learning Modules</h3>
+<ul>
+<li><strong>Elastic Weight Consolidation (EWC)</strong>: Prevents catastrophic forgetting through regularization</li>
+<li><strong>Adaptive LoRA Pooling (ALP)</strong>: Dynamically combines task-specific adaptations</li>
+<li><strong>Grammar-Aware Attention</strong>: Leverages syntactic structure for better generalization</li>
+</ul>
+<h2 id="model-configuration">Model Configuration</h2>
+<p>The <code>BERTCLAMModel</code> can be configured with various parameters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">BERTCLAMModel</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">,</span>      <span class="c1"># Base model</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">num_labels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                        <span class="c1"># Number of output labels</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">lora_r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>                           <span class="c1"># LoRA rank</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>                      <span class="c1"># LoRA scaling factor</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">amr_k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                           <span class="c1"># Memory retrieval size</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">ewc_lambda</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>                    <span class="c1"># EWC regularization strength</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">alp_top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                        <span class="c1"># Top-k for ALP</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">grammar_features_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>            <span class="c1"># Grammar feature dimension</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>                      <span class="c1"># Computation device</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">lora_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># Enable LoRA</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">enable_ewc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                   <span class="c1"># Enable EWC (will be controlled by strategy)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">enable_amr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                   <span class="c1"># Enable AMR (will be controlled by strategy)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">enable_alp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                   <span class="c1"># Enable ALP (will be controlled by strategy)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">enable_grammar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>               <span class="c1"># Enable grammar (will be controlled by strategy)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="n">strategies</span><span class="o">=</span><span class="p">[]</span>                       <span class="c1"># List of strategies to apply</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="task-management">Task Management</h2>
+<p>The framework provides mechanisms for managing multiple tasks:</p>
+<ul>
+<li><code>register_task(task_id)</code>: Register a new task and initialize task-specific components</li>
+<li><code>update_memory(...)</code>: Update memory systems with new task data</li>
+<li><code>get_task_embedding(...)</code>: Obtain embeddings representing task characteristics</li>
+<li><code>save_task_checkpoint(...)</code>: Save task-specific information (e.g., for EWC)</li>
+</ul>
+<h2 id="loss-computation">Loss Computation</h2>
+<p>The framework combines multiple loss components:</p>
+<ul>
+<li><strong>Cross-entropy loss</strong>: Primary classification loss</li>
+<li><strong>Strategy-specific losses</strong>: Losses from individual strategies (EWC, grammar-aware, etc.)</li>
+<li><strong>Knowledge distillation loss</strong>: Loss for preserving knowledge from previous tasks</li>
+</ul>
+<p>This architecture enables researchers to easily experiment with different combinations of continual learning techniques while maintaining a clean, modular codebase.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1879,10 +2185,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/bert_clam/", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "/bert_clam/assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/bert_clam/assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
