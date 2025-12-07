@@ -1,7 +1,7 @@
 site_name: BERT-CLAM Framework
-site_url: https://your-github-username.github.io/bert_clam/
-repo_url: https://github.com/your-github-username/bert_clam
-repo_name: your-github-username/bert_clam
+site_url: https://Solid-Sea.github.io/bert_clam/
+repo_url: https://github.com/Solid-Sea/bert_clam
+repo_name: Solid-Sea/bert_clam
 
 theme:
   name: material
@@ -28,56 +28,53 @@ theme:
 
 plugins:
   - search
-  - mkdocs-static-i18n:
-      # 关键修正：将文档结构设置为 'folder'，以匹配 docs/en, docs/zh 的目录组织
+  - i18n:
       docs_structure: folder
       languages:
         - locale: en
           name: English
           build: true
           default: true
-          # 为英文版定义导航
           nav:
             - Home: index.md
-            - Getting Started:
+            - 'Getting Started':
               - 'getting-started/installation.md'
               - 'getting-started/quick-start.md'
-            - Tutorials:
+            - 'Tutorials':
               - 'tutorials/notebook_guide.md'
-            - Concepts:
+            - 'Concepts':
               - 'concepts/architecture.md'
               - 'concepts/strategy_pattern.md'
-            - Developer Guide:
+            - 'Developer Guide':
               - 'developer/contributing.md'
               - 'developer/testing.md'
-            - API Reference:
+            - 'API Reference':
               - 'api/bert_clam_model.md'
               - 'api/strategy.md'
         - locale: zh
           name: 中文
           build: true
-          # 为中文版定义导航
           nav:
             - 首页: index.md
-            - 快速上手:
+            - '快速上手':
               - 'getting-started/installation.md'
               - 'getting-started/quick-start.md'
-            - 教程:
+            - '教程':
               - 'tutorials/notebook_guide.md'
-            - 核心概念:
+            - '核心概念':
               - 'concepts/architecture.md'
               - 'concepts/strategy_pattern.md'
-            - 开发者指南:
+            - '开发者指南':
               - 'developer/contributing.md'
               - 'developer/testing.md'
-            - API 参考:
+            - 'API 参考':
               - 'api/bert_clam_model.md'
               - 'api/strategy.md'
 
 extra:
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/your-github-username
+      link: https://github.com/Solid-Sea
 
 markdown_extensions:
   - pymdownx.highlight:

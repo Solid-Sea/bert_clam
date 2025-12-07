@@ -1,0 +1,13 @@
+site_name: Test Site
+plugins:
+  - search
+  - mkdocs-static-i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
