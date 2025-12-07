@@ -2,15 +2,14 @@ name: Build and Release Weekly Wheel
 
 on:
   schedule:
-    # Runs at 00:00 UTC on Monday
     - cron: '0 0 * * 1'
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      wheel_path: ${{ steps.get_wheel_name.outputs.WHEEL_PATH }}
+      wheel_filename: ${{ steps.get_wheel_name.outputs.WHEEL_FILENAME }}
       version: ${{ steps.get_version.outputs.VERSION }}
 
     steps:
@@ -36,24 +35,23 @@ jobs:
     - name: Build wheel
       run: python -m build --wheel
 
-    - name: Verify wheel artifact and get path
+    - name: Get wheel filename
       id: get_wheel_name
       run: |
-        WHEEL_FILE=$(ls dist/*.whl)
-        echo "WHEEL_PATH=$WHEEL_FILE" >> $GITHUB_OUTPUT
+        WHEEL_PATH=$(ls dist/*.whl)
+        echo "WHEEL_FILENAME=$(basename $WHEEL_PATH)" >> $GITHUB_OUTPUT
 
     - name: Upload wheel artifact
       uses: actions/upload-artifact@v4
       with:
         name: bert-clam-wheel
-        path: ${{ steps.get_wheel_name.outputs.WHEEL_PATH }}
+        path: dist/*.whl
 
   release:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    # 关键修正: 在 release job 中也必须检出代码，以便访问 Git 历史
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
@@ -63,6 +61,9 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: bert-clam-wheel
+
+    - name: Verify downloaded artifact
+      run: ls -l
 
     - name: Generate changelog
       id: changelog
@@ -85,4 +86,4 @@ jobs:
           ### 📦 Assets
           The attached `.whl` file is the pre-compiled package for this build.
         prerelease: true
-        files: ${{ needs.build.outputs.wheel_path }}
+        files: ${{ needs.build.outputs.wheel_filename }}
