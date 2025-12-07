@@ -6,7 +6,7 @@ We welcome contributions to BERT-CLAM! This guide will help you get started with
 
 Adding a new continual learning strategy is one of the best ways to contribute to BERT-CLAM. The framework's modular design makes it straightforward to implement and integrate new strategies.
 
-![Adding a New Strategy Flowchart](../assets/diagrams/add_new_strategy.png)
+![Adding a New Strategy Flowchart](../../assets/diagrams/add_new_strategy.png)
 
 ### Implementation Steps
 

@@ -2,7 +2,7 @@
 
 This section provides a detailed overview of the BERT-CLAM framework architecture.
 
-![BERT-CLAM Core Architecture](../assets/diagrams/architecture.png)
+![BERT-CLAM Core Architecture](../../assets/diagrams/architecture.png)
 
 ## Strategy Pattern Implementation
 
