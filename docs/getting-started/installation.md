@@ -42,10 +42,10 @@ pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorc
 # 4. 安装 Transformers
 pip install transformers==4.35.0
 
-# 5. 安装其他依赖
-pip install -r requirements.txt
+# 5. 安装其他依赖（推荐使用锁定版本）
+pip install -r requirements-lock.txt
 
-# 6. 安装 BERT-CLAM 库
+# 6. 安装 BERT-CLAM 库（会自动安装 faiss-cpu 等核心依赖）
 pip install -e .
 ```
 
@@ -106,6 +106,37 @@ pip install transformers==4.35.0
 pip uninstall bert-clam -y
 pip install -e .
 ```
+
+### 问题4：Hugging Face 模型下载缓慢或失败
+
+如果您在中国大陆地区遇到 Hugging Face 模型下载问题，可以配置镜像源：
+
+```bash
+# 临时设置（仅当前会话有效）
+export HF_ENDPOINT=https://hf-mirror.com
+
+# 或在 Windows PowerShell 中
+$env:HF_ENDPOINT="https://hf-mirror.com"
+
+# 永久设置（Linux/Mac）
+echo 'export HF_ENDPOINT=https://hf-mirror.com' >> ~/.bashrc
+source ~/.bashrc
+
+# 永久设置（Windows）
+setx HF_ENDPOINT "https://hf-mirror.com"
+```
+
+配置后，所有 Hugging Face 模型和数据集的下载都会通过镜像加速。
+
+### 问题5：依赖版本冲突
+
+如果遇到依赖冲突（特别是 `transformers` 和 `sentence-transformers` 之间），请使用锁定版本文件：
+
+```bash
+pip install -r requirements-lock.txt
+```
+
+**注意**：`faiss-cpu` 会作为核心依赖自动安装，无需手动安装。
 
 ## 环境信息
 

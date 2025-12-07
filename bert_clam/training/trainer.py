@@ -101,8 +101,15 @@ class BERTCLAMTrainer:
                    train_loader: DataLoader,
                    val_loader: DataLoader = None,
                    epochs: int = 3,
-                   save_checkpoint: bool = True):
-        """训练单个任务"""
+                   save_checkpoint: bool = True,
+                   early_stopping_patience: int = None,
+                   early_stopping_min_delta: float = 0.001):
+        """训练单个任务
+        
+        Args:
+            early_stopping_patience: 早停耐心值,连续多少个epoch验证集性能无改善则停止
+            early_stopping_min_delta: 最小改善阈值
+        """
         logger.info(f"=" * 60)
         logger.info(f"开始训练任务 {task_id}")
         logger.info(f"训练轮数: {epochs}, 批次大小: {train_loader.batch_size}")
@@ -119,6 +126,10 @@ class BERTCLAMTrainer:
             logger.error(f"任务注册失败: {str(e)}")
             logger.error(traceback.format_exc())
             raise
+        
+        # 早停相关变量
+        best_val_acc = 0.0
+        epochs_without_improvement = 0
         
         for epoch in range(epochs):
             self.model.train()  # 确保每个epoch开始时模型处于训练模式
@@ -217,6 +228,20 @@ class BERTCLAMTrainer:
                     logger.info(f"Task {task_id}, Validation Accuracy: {val_acc:.4f}")
                     if self.use_wandb:
                         wandb.log({f'task_{task_id}/val_accuracy': val_acc, 'epoch': epoch})
+                    
+                    # 早停检查
+                    if early_stopping_patience is not None:
+                        if val_acc > best_val_acc + early_stopping_min_delta:
+                            best_val_acc = val_acc
+                            epochs_without_improvement = 0
+                            logger.info(f"验证准确率提升到 {val_acc:.4f}")
+                        else:
+                            epochs_without_improvement += 1
+                            logger.info(f"验证准确率无改善 ({epochs_without_improvement}/{early_stopping_patience})")
+                            
+                            if epochs_without_improvement >= early_stopping_patience:
+                                logger.info(f"早停触发！连续 {early_stopping_patience} 个epoch无改善")
+                                break
                 except Exception as e:
                     logger.error(f"验证失败: {str(e)}")
                     logger.error(traceback.format_exc())

@@ -9,34 +9,34 @@ install_requires = [
     # 核心深度学习框架
     'torch>=2.0.0,<2.3.0',
     'torchvision>=0.15.0,<0.18.0',
-    
+
     # Transformers 生态系统（严格版本控制）
     'transformers>=4.30.0,<5.0.0',
     'tokenizers>=0.14,<0.19',
     'peft>=0.4.0,<0.5.0',
     'accelerate>=0.21.0',
-    
+
     # 数据处理（NumPy 1.x 兼容性）
     'numpy>=1.24.0,<2.0.0',
     'scipy>=1.10.0',
     'datasets>=2.12.0',
     'pandas>=2.0.0',
-    
+
     # 机器学习工具
     'scikit-learn>=1.3.0',
     'faiss-cpu>=1.7.4',
-    
+
     # 可视化和监控
     'matplotlib>=3.7.0',
     'seaborn>=0.12.0',
     'tensorboard>=2.13.0',
     'wandb>=0.15.0',
-    
+
     # 配置管理
     'hydra-core>=1.3.0',
     'omegaconf>=2.3.0',
     'pyyaml>=6.0',
-    
+
     # 工具和辅助
     'tqdm>=4.65.0',
     'rich>=13.0.0',
